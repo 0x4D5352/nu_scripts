@@ -165,7 +165,7 @@ def throw_error_on_non-table_input [] {
         $e.msg
     }
 
-    assert equal $out "input must be a table"
+    assert equal $out "Input type not supported."
 }
 
 #[test]
@@ -173,11 +173,11 @@ def throw_error_on_non-existing_column [] {
     let grouped = $movies | group-by Genre --to-table
     let error = try {
         $grouped | aggregate --ops {avg: {math avg}} NotInTheDataSet
-    } catch {|e|
-        $e.json | from json
+    } catch {
+        get details
     }
 
-    assert equal $error.inner.0.msg "Cannot find column '$.items.NotInTheDataSet'"
+    assert equal $error.msg "Cannot find column '$.items.NotInTheDataSet'"
 }
 
 #[test]
